@@ -1,0 +1,13 @@
+management:
+  httpexchanges:
+    recording: true
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000
+debug: true
+server:
+  port: 8090
