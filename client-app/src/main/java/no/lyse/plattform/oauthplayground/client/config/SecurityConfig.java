@@ -20,15 +20,13 @@ public class SecurityConfig {
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
-    @Bean
-    WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/webjars/**");
-    }
-
     // @formatter:off
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .authorizeHttpRequests(authorize ->
+                authorize.requestMatchers("/webjars/**").permitAll()
+            )
             .authorizeHttpRequests(authorize ->
                 authorize.anyRequest().authenticated()
             )
