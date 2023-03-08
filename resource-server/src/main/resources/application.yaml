@@ -11,3 +11,8 @@ spring:
 debug: true
 server:
   port: 8090
+
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG

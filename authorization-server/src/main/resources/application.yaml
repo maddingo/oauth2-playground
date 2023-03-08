@@ -3,3 +3,8 @@ server:
   port: 9000
 
 debug: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework: DEBUG
