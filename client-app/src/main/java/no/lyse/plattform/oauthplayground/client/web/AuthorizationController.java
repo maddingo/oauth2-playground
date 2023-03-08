@@ -17,6 +17,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
@@ -37,24 +39,30 @@ public class AuthorizationController {
                                                @RegisteredOAuth2AuthorizedClient("messaging-client-authorization-code")
                                          OAuth2AuthorizedClient authorizedClient)
     {
-
-        return this.webClient
-            .get()
-            .uri(this.messagesBaseUri)
-            .attributes(oauth2AuthorizedClient(authorizedClient))
-            .retrieve()
-            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
-            .log()
-//            .collectList()
-//            .log()
-            .flatMap(l -> {
-                model.addAttribute("messages", l.toArray(new String[0]));
-                return Mono.just("index");
-
-            });
+        return messages(model, oauth2AuthorizedClient(authorizedClient));
     }
 
     // '/authorized' is the registered 'redirect_uri' for authorization_code
+    @GetMapping(value = "/authorize", params = "grant_type=client_credentials")
+    public Mono<String> clientCredentialsGrant(Model model) {
+
+        return messages(model, clientRegistrationId("messaging-client-client-credentials"));
+    }
+
+    private Mono<String> messages(Model model, Consumer<Map<String, Object>> clientAttribute) {
+        return this.webClient
+            .get()
+            .uri(this.messagesBaseUri)
+            .attributes(clientAttribute)
+            .retrieve()
+            .bodyToMono(new ParameterizedTypeReference<List<String>>() {
+            })
+            .flatMap(l -> {
+                model.addAttribute("messages", l.toArray(new String[0]));
+                return Mono.just("index");
+            });
+    }
+
     @GetMapping(value = "/authorized", params = OAuth2ParameterNames.ERROR)
     public Mono<String> authorizationFailed(Model model, HttpServletRequest request) {
         String errorCode = request.getParameter(OAuth2ParameterNames.ERROR);
@@ -68,21 +76,5 @@ public class AuthorizationController {
         }
 
         return Mono.just("index");
-    }
-
-    @GetMapping(value = "/authorize", params = "grant_type=client_credentials")
-    public Mono<String> clientCredentialsGrant(Model model) {
-
-        return this.webClient
-            .get()
-            .uri(this.messagesBaseUri)
-            .attributes(clientRegistrationId("messaging-client-client-credentials"))
-            .retrieve()
-            .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
-            .flatMap(l -> {
-                model.addAttribute("messages", l.toArray(new String[0]));
-                return Mono.just("index");
-
-            });
     }
 }
