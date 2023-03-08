@@ -5,10 +5,15 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -59,19 +64,19 @@ public class AuthorizationController {
             .thenReturn("index");
     }
 
-//    @GetMapping(value = "/authorized", params = OAuth2ParameterNames.ERROR)
-//    public Mono<String> authorizationFailed(Model model, ServerWebExchange exchange) {
-//        MultiValueMap<String, String> params = exchange.getRequest().getQueryParams();
-//        String errorCode = params.getFirst(OAuth2ParameterNames.ERROR);
-//        if (StringUtils.hasText(errorCode)) {
-//            model.addAttribute("error",
-//                new OAuth2Error(
-//                    errorCode,
-//                    params.getFirst(OAuth2ParameterNames.ERROR_DESCRIPTION),
-//                    params.getFirst(OAuth2ParameterNames.ERROR_URI))
-//            );
-//        }
-//
-//        return Mono.just("index");
-//    }
+    @GetMapping(value = "/authorize")
+    public Mono<String> authorizationFailed(Model model, ServerWebExchange exchange) {
+        MultiValueMap<String, String> params = exchange.getRequest().getQueryParams();
+        String errorCode = params.getFirst(OAuth2ParameterNames.ERROR);
+        if (StringUtils.hasText(errorCode)) {
+            model.addAttribute("error",
+                new OAuth2Error(
+                    errorCode,
+                    params.getFirst(OAuth2ParameterNames.ERROR_DESCRIPTION),
+                    params.getFirst(OAuth2ParameterNames.ERROR_URI))
+            );
+        }
+
+        return Mono.just("index");
+    }
 }
