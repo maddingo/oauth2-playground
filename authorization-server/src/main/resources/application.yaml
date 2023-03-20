@@ -3,3 +3,6 @@ server:
   port: 9000
 
 debug: true
+
+auth-server:
+  issuer: 'http://auth-server:9000'

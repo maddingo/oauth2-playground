@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import no.lyse.plattform.oauth2playground.authorizationserver.jose.JwksUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -84,9 +85,9 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
+    public AuthorizationServerSettings authorizationServerSettings(@Value("${auth-server.issuer}") String issuer) {
         return AuthorizationServerSettings.builder()
-            .issuer("http://auth-server:9000")
+            .issuer(issuer)
             .build();
     }
 }
