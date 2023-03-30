@@ -1,6 +1,7 @@
 package no.lyse.plattform.oauth2playground.authorizationserver.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.KeyType;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
@@ -27,6 +28,7 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
+import java.util.List;
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
@@ -74,8 +76,11 @@ public class AuthorizationServerConfig {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey = JwksUtils.generateRsa();
-        JWKSet jwkSet = new JWKSet(rsaKey);
+
+        JWKSet jwkSet = new JWKSet(List.of(
+            JwksUtils.generateRsa(),
+            JwksUtils.generateEc()
+        ));
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
