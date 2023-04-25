@@ -20,23 +20,27 @@ public class SecurityConfig {
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
-    @Bean
-    WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/webjars/**");
-    }
+//    @Bean
+//    WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers("/webjars/**");
+//    }
 
     // @formatter:off
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize ->
-                authorize.anyRequest().authenticated()
+                authorize
+                    .requestMatchers("/error", "/webjars/**").permitAll()
+                    .anyRequest().authenticated()
             )
             .oauth2Login(oauth2Login ->
-                oauth2Login.loginPage("/oauth2/authorization/messaging-client-oidc"))
+                oauth2Login.loginPage("/oauth2/authorization/messaging-client-oidc")
+            )
             .oauth2Client(withDefaults())
             .logout(logout ->
-                logout.logoutSuccessHandler(oidcLogoutSuccessHandler()));
+                logout.logoutSuccessHandler(oidcLogoutSuccessHandler())
+            );
         return http.build();
     }
     // @formatter:on
