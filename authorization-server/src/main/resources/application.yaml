@@ -4,5 +4,9 @@ server:
 
 debug: true
 
+redirect:
+  server:
+    uri: http://localhost:8080
+
 auth-server:
   issuer: 'http://auth-server:9000'

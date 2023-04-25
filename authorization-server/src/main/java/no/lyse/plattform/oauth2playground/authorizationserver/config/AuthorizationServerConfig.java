@@ -52,7 +52,7 @@ public class AuthorizationServerConfig {
 
     // @formatter:off
     @Bean
-    public RegisteredClientRepository registeredClientRepository(/*JdbcTemplate jdbcTemplate*/) {
+    public RegisteredClientRepository registeredClientRepository(@Value("${redirect.server.uri}") String redirectServerUri) {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId("messaging-client")
             .clientSecret("{noop}secret")
@@ -60,8 +60,8 @@ public class AuthorizationServerConfig {
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
-            .redirectUri("http://127.0.0.1:8080/authorized")
+            .redirectUri(redirectServerUri + "/login/oauth2/code/messaging-client-oidc")
+            .redirectUri(redirectServerUri + "/authorized")
 //            .postLogoutRedirectUri("http://127.0.0.1:8080/index")
             .scope(OidcScopes.OPENID)
             .scope(OidcScopes.PROFILE)
