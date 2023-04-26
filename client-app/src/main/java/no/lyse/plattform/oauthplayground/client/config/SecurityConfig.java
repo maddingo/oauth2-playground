@@ -28,7 +28,7 @@ public class SecurityConfig {
     // @formatter:off
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
             .authorizeHttpRequests(authorize ->
                 authorize
                     .requestMatchers("/error", "/webjars/**").permitAll()
@@ -40,8 +40,9 @@ public class SecurityConfig {
             .oauth2Client(withDefaults())
             .logout(logout ->
                 logout.logoutSuccessHandler(oidcLogoutSuccessHandler())
-            );
-        return http.build();
+            )
+            .csrf().disable()
+            .build();
     }
     // @formatter:on
 
