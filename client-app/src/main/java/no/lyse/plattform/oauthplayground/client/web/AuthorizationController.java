@@ -14,6 +14,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
 
@@ -33,14 +36,7 @@ public class AuthorizationController {
                                          @RegisteredOAuth2AuthorizedClient("messaging-client-authorization-code")
                                          OAuth2AuthorizedClient authorizedClient) {
 
-        String[] messages = this.webClient
-            .get()
-            .uri(this.messagesBaseUri)
-            .attributes(oauth2AuthorizedClient(authorizedClient))
-            .retrieve()
-            .bodyToMono(String[].class)
-            .block();
-        model.addAttribute("messages", messages);
+        addMessagesToModel(model, oauth2AuthorizedClient(authorizedClient));
 
         return "index";
     }
@@ -64,15 +60,19 @@ public class AuthorizationController {
     @GetMapping(value = "/authorize", params = "grant_type=client_credentials")
     public String clientCredentialsGrant(Model model) {
 
+        addMessagesToModel(model, clientRegistrationId("messaging-client-client-credentials"));
+
+        return "index";
+    }
+
+    private void addMessagesToModel(Model model, Consumer<Map<String, Object>> clientAttribute) {
         String[] messages = this.webClient
             .get()
             .uri(this.messagesBaseUri)
-            .attributes(clientRegistrationId("messaging-client-client-credentials"))
+            .attributes(clientAttribute)
             .retrieve()
             .bodyToMono(String[].class)
             .block();
         model.addAttribute("messages", messages);
-
-        return "index";
     }
 }
