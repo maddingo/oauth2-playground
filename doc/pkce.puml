@@ -7,7 +7,7 @@ title Authorization Code Flow with Proof Key for Code Exchange (PKCE) with OIDC
 actor "User" as user
 participant "client-app" as client
 participant "authorization-server" as idp
-participant "resosurce-server" as res_srv
+participant "resource-server" as res_srv
 
 == Get Access Token ==
 user -> client: Click login link
