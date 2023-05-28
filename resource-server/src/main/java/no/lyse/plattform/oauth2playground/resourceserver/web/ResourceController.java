@@ -17,7 +17,7 @@ public class ResourceController {
 
     @GetMapping(value = "/messages", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<List<String>> listMessages() {
-        return messages.listMessages()
+        return messages.listMessages().log()
             .collectList();
     }
 }

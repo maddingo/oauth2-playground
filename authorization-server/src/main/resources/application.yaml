@@ -10,3 +10,8 @@ redirect:
 
 auth-server:
   issuer: 'http://auth-server:9000'
+
+logging:
+  level:
+    root: info
+    org.springframework.security: trace
