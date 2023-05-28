@@ -14,9 +14,9 @@ buildNumber.properties
 .project
 .classpath
 
-/authorization-server/config/application*.properties
-/resource-server/config/application*.properties
-/client-app/config/application*.properties
+/authorization-server/config/*
+/resource-server/config/*
+/client-app/config/*
 
 *.orig
 *.log
