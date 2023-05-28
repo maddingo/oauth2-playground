@@ -31,12 +31,13 @@ public class SecurityConfig {
         return http
             .authorizeHttpRequests(authorize ->
                 authorize
-                    .requestMatchers("/error", "/webjars/**").permitAll()
+                    .requestMatchers("/error/**", "/webjars/**", "").permitAll()
                     .anyRequest().authenticated()
             )
-            .oauth2Login(oauth2Login ->
-                oauth2Login.loginPage("/oauth2/authorization/messaging-client-oidc")
-            )
+            .oauth2Login(withDefaults())
+//            .oauth2Login(oauth2Login ->
+//                oauth2Login.loginPage("/oauth2/authorization/messaging-client-oidc")
+//            )
             .oauth2Client(withDefaults())
             .logout(logout ->
                 logout.logoutSuccessHandler(oidcLogoutSuccessHandler())

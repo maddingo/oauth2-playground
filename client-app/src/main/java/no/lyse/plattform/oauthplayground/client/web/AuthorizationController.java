@@ -1,9 +1,7 @@
 package no.lyse.plattform.oauthplayground.client.web;
 
 import jakarta.servlet.http.HttpServletRequest;
-import no.lyse.plattform.oauthplayground.client.config.WebClientConfig;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -26,7 +24,8 @@ public class AuthorizationController {
     private final String messagesBaseUri;
 
     public AuthorizationController(WebClient webClient,
-                                   @Value("${messages.base-uri}") String messagesBaseUri) {
+                                   @Value("${messages.base-uri}") String messagesBaseUri
+    ) {
         this.webClient = webClient;
         this.messagesBaseUri = messagesBaseUri;
     }

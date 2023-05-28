@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.ConfigurationSettingNames;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
@@ -67,7 +68,12 @@ public class AuthorizationServerConfig {
             .scope(OidcScopes.PROFILE)
             .scope("message.read")
             .scope("message.write")
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+            .clientSettings(ClientSettings.builder()
+                .requireAuthorizationConsent(true)
+                .setting(ConfigurationSettingNames.Token.REFRESH_TOKEN_TIME_TO_LIVE,36000)
+                .setting(ConfigurationSettingNames.Token.ACCESS_TOKEN_TIME_TO_LIVE, 3600)
+                .build()
+            )
             .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);

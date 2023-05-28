@@ -17,3 +17,6 @@ buildNumber.properties
 /authorization-server/config/application*.properties
 /resource-server/config/application*.properties
 /client-app/config/application*.properties
+
+*.orig
+*.log
