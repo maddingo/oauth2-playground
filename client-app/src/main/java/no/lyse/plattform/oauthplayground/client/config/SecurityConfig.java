@@ -42,7 +42,7 @@ public class SecurityConfig {
             .logout(logout ->
                 logout.logoutSuccessHandler(oidcLogoutSuccessHandler())
             )
-            .csrf().disable()
+            .csrf(csrf -> csrf.disable())
             .build();
     }
     // @formatter:on
