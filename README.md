@@ -17,9 +17,12 @@ The code originates from https://github.com/spring-projects/spring-authorization
 ```shell
 mvn clean deploy -DaltDeploymentRepository=local::file://${HOME}/tmp/maven-local 
 ```
+# Start Docker Registry
+```shell
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+``` 
 
 # Deploy to local Docker registry
 ```shell
-docker run -d -p 5000:5000 --restart=always --name registry registry:2
 mvn clean deploy -Dspring-boot.build-image.publish=true -Ddocker.image.registry=localhost:5000
 ```
