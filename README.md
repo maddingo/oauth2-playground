@@ -26,3 +26,16 @@ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```shell
 mvn clean deploy -Dspring-boot.build-image.publish=true -Ddocker.image.registry=localhost:5000
 ```
+
+# Spring Boot and Rest
+See: https://developer.okta.com/blog/2022/06/17/simple-crud-react-and-spring-boot
+
+```shell
+npx create-react-app frontend
+cd frontend
+npm i bootstrap react-cookie react-router-dom reactstrap
+
+# At this point there were 6 high severity vulnerabilities
+npm audit fix --force
+# now there are 79 vulnerabilities (41 high, 6 critical), skip the audit for now
+```
