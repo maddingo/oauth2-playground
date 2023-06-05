@@ -17,6 +17,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.plugin.validation>VERBOSE</maven.plugin.validation>
+        <docker.image.registry>localhost:5000</docker.image.registry>
+        <spring-boot.build-image.publish>true</spring-boot.build-image.publish>
+        <spring-boot.build-image.imageName>${docker.image.registry}/${project.groupId}/${project.artifactId}:${project.version}</spring-boot.build-image.imageName>
+        <maven.deploy.skip>true</maven.deploy.skip> <!-- skip maven deploy in favor of docker push -->
     </properties>
 
     <dependencyManagement>

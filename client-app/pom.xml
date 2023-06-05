@@ -98,6 +98,11 @@
                         <phase>package</phase>
                         <goals><goal>repackage</goal></goals>
                     </execution>
+                    <execution>
+                        <id>docker-deploy</id>
+                        <phase>deploy</phase>
+                        <goals><goal>build-image-no-fork</goal></goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
