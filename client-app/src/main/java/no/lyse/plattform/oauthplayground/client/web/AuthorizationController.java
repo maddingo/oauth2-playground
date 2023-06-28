@@ -1,7 +1,9 @@
 package no.lyse.plattform.oauthplayground.client.web;
 
 import jakarta.servlet.http.HttpServletRequest;
+import no.lyse.plattform.oauthplayground.client.data.Joke;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -67,11 +70,21 @@ public class AuthorizationController {
     private void addMessagesToModel(Model model, Consumer<Map<String, Object>> clientAttribute) {
         String[] messages = this.webClient
             .get()
-            .uri(this.messagesBaseUri)
+            .uri(UriComponentsBuilder.fromUriString(messagesBaseUri).path("/messages").build().toUri())
             .attributes(clientAttribute)
             .retrieve()
             .bodyToMono(String[].class)
             .block();
         model.addAttribute("messages", messages);
+
+        Joke joke = this.webClient
+            .get()
+            .uri(UriComponentsBuilder.fromUriString(messagesBaseUri).path("/joke").build().toUri())
+            .attributes(clientAttribute)
+            .retrieve()
+            .bodyToMono(Joke.class)
+            .log()
+            .block();
+        model.addAttribute("joke", joke);
     }
 }

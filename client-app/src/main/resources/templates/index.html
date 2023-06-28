@@ -46,6 +46,10 @@
                 </tbody>
             </table>
         </div>
+        <div th:if="${joke}" class="panel-footer">
+            <h4>Joke:</h4>
+            <div th:text="${joke.joke}">joke</div>
+        </div>
     </div>
 </div>
 <script src="/webjars/jquery/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
