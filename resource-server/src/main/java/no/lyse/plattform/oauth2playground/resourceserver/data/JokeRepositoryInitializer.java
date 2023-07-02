@@ -1,6 +1,7 @@
 package no.lyse.plattform.oauth2playground.resourceserver.data;
 
 import lombok.RequiredArgsConstructor;
+import no.lyse.plattform.oauth2playground.jokeapi.Joke;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

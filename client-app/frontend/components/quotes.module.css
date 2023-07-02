@@ -1,0 +1,45 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 5vh;
+}
+
+.header {
+  padding-bottom: 1vh;
+}
+
+.area {
+  min-height: 10vh;
+}
+
+.single {
+
+}
+
+.error {
+  color: red;
+}
+
+.loading {
+  color: gray;
+}
+
+.setup {
+  font-style: italic;
+}
+
+.delivery {
+
+}
+
+.buttonPanel {
+
+}
+
+.button {
+
+}

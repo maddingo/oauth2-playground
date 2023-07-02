@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import style from './quotes.module.css';
 
 // Get quotes from remote API
 // TODO replace with call to the client-app
@@ -6,27 +7,35 @@ import useSWR from 'swr';
 // Read: https://next-auth.js.org/getting-started/client
 // Read: https://www.devgould.com/jwt-authentication-with-nextjs-bff-backend-for-frontend/
 
-export default function Quotes() {
+export default function Quotes({withRefreshButton = false, jokeUri = '/api/joke'}) {
+
+  // const jokeUrl = 'https://v2.jokeapi.dev/joke/Any?safe-mode';
   const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, fetchError } = useSWR('https://v2.jokeapi.dev/joke/Any?safe-mode', fetcher);
-  if (fetchError) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-  const { error, category, type, joke, flags, id, safe, lang} = data;
+  const { data, mutate, error } = useSWR(jokeUri, fetcher);
+  if (error) return <div className={style.content}><div className={style.error}>failed to load</div></div>;
+  if (!data) return <div className={style.content}><div className={style.loading}>loading...</div></div>;
   return (
-    <div>
-      <h2>{data.category} Joke</h2>
-      <>
+    <div className={style.content}>
+      <h2 className={style.header}>{data.category} Joke</h2>
+      <div className={style.area}>
         {
           data.type === 'single' ? (
-            <p>{data.joke}</p>
+            <p className={style.single}>{data.joke}</p>
           ) : (
             <>
-              <p>{data.setup}</p>
-              <p>{data.delivery}</p>
+              <p className={style.setup}>{data.setup}</p>
+              <p className={style.delivery}>{data.delivery}</p>
             </>
           )
         }
-      </>
+      </div>
+        {
+          withRefreshButton && (
+            <div className={style.buttonPanel}>
+            <button className={style.button} onClick={() => mutate(data)}>Refresh</button>
+            </div>
+          )
+        }
     </div>
   );
 }

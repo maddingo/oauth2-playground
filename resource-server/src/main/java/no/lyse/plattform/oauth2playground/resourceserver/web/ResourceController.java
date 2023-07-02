@@ -1,7 +1,7 @@
 package no.lyse.plattform.oauth2playground.resourceserver.web;
 
 import lombok.RequiredArgsConstructor;
-import no.lyse.plattform.oauth2playground.resourceserver.data.Joke;
+import no.lyse.plattform.oauth2playground.jokeapi.Joke;
 import no.lyse.plattform.oauth2playground.resourceserver.data.JokeRepository;
 import no.lyse.plattform.oauth2playground.resourceserver.data.MessagesRepository;
 import org.springframework.http.MediaType;

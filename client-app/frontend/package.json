@@ -3,8 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "prod": "next export"
+    "start": "next start"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.4.1",
@@ -13,6 +12,7 @@
     "@opentelemetry/sdk-trace-node": "^1.14.0",
     "@opentelemetry/semantic-conventions": "^1.14.0",
     "next": "latest",
+    "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swr": "^2.2.0"

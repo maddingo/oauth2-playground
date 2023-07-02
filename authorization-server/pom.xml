@@ -9,7 +9,6 @@
     </parent>
     <groupId>no.lyse.plattform.oauth2-playground</groupId>
     <artifactId>authorization-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>authorization-server</name>
     <description>authorization-server</description>
 

@@ -30,7 +30,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
@@ -46,14 +49,14 @@ public class AuthorizationServerConfig {
             .exceptionHandling(exceptions ->
                 exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
             )
-            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+            .oauth2ResourceServer(config -> config.jwt(Customizer.withDefaults()));
         // @formatter:on
         return http.build();
     }
 
     // @formatter:off
     @Bean
-    public RegisteredClientRepository registeredClientRepository(@Value("${redirect.server.uri}") String redirectServerUri) {
+    public RegisteredClientRepository registeredClientRepository(@Value("${redirect.server-uris}") Set<String> redirectServerUris) {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId("messaging-client")
             .clientSecret("{noop}secret")
@@ -61,9 +64,7 @@ public class AuthorizationServerConfig {
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .redirectUri(redirectServerUri + "/login/oauth2/code/messaging-client-oidc")
-            .redirectUri(redirectServerUri + "/authorized")
-//            .postLogoutRedirectUri("http://127.0.0.1:8080/index")
+            .redirectUris(uris -> uris.addAll(redirectServerUris))
             .scope(OidcScopes.OPENID)
             .scope(OidcScopes.PROFILE)
             .scope("message.read")

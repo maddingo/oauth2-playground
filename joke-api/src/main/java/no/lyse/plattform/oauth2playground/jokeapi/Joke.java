@@ -1,15 +1,32 @@
-package no.lyse.plattform.oauthplayground.client.data;
+package no.lyse.plattform.oauth2playground.jokeapi;
+/*
+{
+    "error": false,
+    "category": "Programming",
+    "type": "single",
+    "joke": "\"Can I tell you a TCP joke?\"\n\"Please tell me a TCP joke.\"\n\"OK, I'll tell you a TCP joke.\"",
+    "flags": {
+        "nsfw": false,
+        "religious": false,
+        "political": false,
+        "racist": false,
+        "sexist": false,
+        "explicit": false
+    },
+    "id": 57,
+    "safe": true,
+    "lang": "en"
+}
+ */
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 /**
  * Data class for jokes that complies with https://v2.jokeapi.dev/
- * TODO Remove this copy from resource-server and put it in a separate library.
  */
 @Data
 @Builder

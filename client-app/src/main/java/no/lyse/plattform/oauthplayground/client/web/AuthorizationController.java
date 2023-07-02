@@ -1,7 +1,7 @@
 package no.lyse.plattform.oauthplayground.client.web;
 
 import jakarta.servlet.http.HttpServletRequest;
-import no.lyse.plattform.oauthplayground.client.data.Joke;
+import no.lyse.plattform.oauth2playground.jokeapi.Joke;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -33,17 +33,8 @@ public class AuthorizationController {
         this.messagesBaseUri = messagesBaseUri;
     }
 
-    @GetMapping(value = "/authorize", params = "grant_type=authorization_code")
-    public String authorizationCodeGrant(Model model,
-                                         @RegisteredOAuth2AuthorizedClient("messaging-client-authorization-code")
-                                         OAuth2AuthorizedClient authorizedClient) {
-
-        addMessagesToModel(model, oauth2AuthorizedClient(authorizedClient));
-
-        return "index";
-    }
-
     // '/authorized' is the registered 'redirect_uri' for authorization_code
+
     @GetMapping(value = "/authorized", params = OAuth2ParameterNames.ERROR)
     public String authorizationFailed(Model model, HttpServletRequest request) {
         String errorCode = request.getParameter(OAuth2ParameterNames.ERROR);
@@ -55,6 +46,16 @@ public class AuthorizationController {
                     request.getParameter(OAuth2ParameterNames.ERROR_URI))
             );
         }
+
+        return "index";
+    }
+
+    @GetMapping(value = "/authorize", params = "grant_type=authorization_code")
+    public String authorizationCodeGrant(Model model,
+                                         @RegisteredOAuth2AuthorizedClient("messaging-client-authorization-code")
+                                         OAuth2AuthorizedClient authorizedClient) {
+
+        addMessagesToModel(model, oauth2AuthorizedClient(authorizedClient));
 
         return "index";
     }
