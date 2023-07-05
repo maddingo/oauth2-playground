@@ -9,7 +9,8 @@ export default function UserInfo() {
     <div className={style.panel}>
       {!session && (
         <>
-          <Link href={'/login/oauth2/code/messaging-client-oidc'}>Sign In</Link>
+        <Link href={'/oauth2/authorization/messaging-client-oidc'}>Sign In</Link>
+        {/*<Link href={'/login'}>Sign In</Link>*/}
         </>
       )}
       {session && (

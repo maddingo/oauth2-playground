@@ -4,14 +4,17 @@ server:
 logging:
   level:
     root: INFO
-    org.springframework.web: INFO
+    org.springframework.web: TRACE
     org.springframework.security: TRACE
+    no.lyse.plattform: TRACE
+    sun.rmi: ERROR
+    java.io: ERROR
+    javax.management: ERROR
+    reactor.netty: ERROR
 #    org.springframework.security.oauth2: INFO
 #    org.springframework.boot.autoconfigure: DEBUG
 
 spring:
-  thymeleaf:
-    cache: false
   security:
     oauth2:
       client:
@@ -22,16 +25,16 @@ spring:
             client-secret: secret
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
-            scope: openid, profile
+            scope: openid, profile, message.read,message.write
             client-name: messaging-client-oidc
-          messaging-client-authorization-code:
-            provider: spring
-            client-id: messaging-client
-            client-secret: secret
-            authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8080/authorized"
-            scope: message.read,message.write
-            client-name: messaging-client-authorization-code
+#          messaging-client-authorization-code:
+#            provider: spring
+#            client-id: messaging-client
+#            client-secret: secret
+#            authorization-grant-type: authorization_code
+#            redirect-uri: "http://localhost:8080/authorized"
+#            scope: message.read,message.write
+#            client-name: messaging-client-authorization-code
           messaging-client-client-credentials:
             provider: spring
             client-id: messaging-client
@@ -43,5 +46,10 @@ spring:
           spring:
             issuer-uri: http://auth-server:9000
 
+client-app:
+  cors:
+    allowed-origins: http://localhost:8080,http://localhost:3000
+    allowed-methods: GET, POST
+  logout-redirect-uri: '/'
 messages:
   base-uri: http://localhost:8090/
