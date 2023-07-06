@@ -84,3 +84,9 @@ if ! check_build_targets; then
 fi
 
 start_applications
+
+echo
+echo Kill the applications with:
+for screen_id in $(screen -ls | awk 'NR >1 && !/^[0-9]+ Socket/ {print $1}') ; do echo "screen -XS ${screen_id} quit" ; done
+echo
+
