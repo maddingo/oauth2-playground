@@ -26,3 +26,33 @@ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```shell
 mvn clean deploy -Dspring-boot.build-image.publish=true -Ddocker.image.registry=localhost:5000
 ```
+
+# Spring Boot and Rest
+See: https://developer.okta.com/blog/2022/06/17/simple-crud-react-and-spring-boot
+
+# Client Application
+The client app has a Spring boot backend and a Next.js frontend
+
+## Develop the backend
+
+```bash
+mvn clean compile spring-boot:run
+```
+
+## Develop the frontend
+
+```bash
+mvn frontend:install-node-and-npm frontend:npm@npm-run-dev -Pdev
+```
+
+or simply
+
+```bash
+cd frontend; npm run dev
+```
+
+## Run the packaged application
+
+```bash
+mvn clean package ; java -jar target/client-app.jar
+```
