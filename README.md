@@ -15,7 +15,7 @@ The code originates from https://github.com/spring-projects/spring-authorization
 
 # Deploy to local Maven Repository
 ```shell
-mvn clean deploy -DaltDeploymentRepository=local::file://${HOME}/tmp/maven-local 
+mvn clean deploy -DaltDeploymentRepository=local::file://${HOME}/tmp/maven-local -Dspring-boot.build-image.skip=true -Dmaven.deploy.skip=false
 ```
 # Start Docker Registry
 ```shell
