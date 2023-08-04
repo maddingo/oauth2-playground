@@ -10,26 +10,21 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "develop" ]
+    branches:
+      - "develop"
+      - "main"
   pull_request:
-    branches: [ "develop" ]
+    branches:
+      - "develop"
+      - "main"
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package
-
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-#    - name: Update dependency graph
-#      uses: advanced-security/maven-dependency-submission-action@v3
+    - uses: 'Lyse-AS/lyse-build-java-composite-action@develop'
